@@ -140,6 +140,58 @@ $(".list-group").on("blur", "input[type='text']", function(){
   $(this).replaceWith(taskSpan);
 });
 
+$(".card .list-group").sortable({
+  connectWith: $(".card .list-group"),
+  scroll: false,
+  tolerance: "pointer",
+  helper: "clone",
+  activate: function(event) {
+    
+  },
+  deactivate: function(event) {
+    
+  },
+  over: function(event) {
+    
+  },
+  out: function(event) {
+    
+  },
+  update: function(event) {
+    // array to store the task data
+    var tempArr = [];
+
+    // loops over current set of children in sortable list
+    $(this).children().each(function() {
+      var text = $(this)
+        .find("p")
+        .text()
+        .trim();
+
+      var date = $(this)
+        .find("span")
+        .text()
+        .trim();
+
+      // add task data to the temp array a san object
+      tempArr.push({
+        text: text,
+        date: date
+      });
+
+    });
+
+    // trim down lists ID to match object property
+    var arrName = $(this)
+      .attr("id")
+      .replace("list-", "");
+
+    // update array on tasks object and save
+    tasks[arrName] = tempArr;
+    saveTasks();
+  }
+});
+
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
   // clear values
